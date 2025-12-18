@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Felices Fiestas | Partes Eléctricas BYB</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      text-align: center;
+    }
+    .card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 30px 20px;
+      max-width: 420px;
+      width: 90%;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+    }
+    h2 {
+      font-size: 1.2rem;
+      font-weight: 400;
+      margin-bottom: 20px;
+    }
+    .countdown {
+      margin: 20px 0;
+    }
+    .time {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 10px;
+    }
+    .box {
+      background: rgba(0,0,0,0.3);
+      border-radius: 12px;
+      padding: 10px;
+      width: 70px;
+    }
+    .box span {
+      display: block;
+      font-size: 1.4rem;
+      font-weight: bold;
+    }
+    .box small {
+      font-size: 0.7rem;
+      opacity: 0.8;
+    }
+    p {
+      font-size: 0.95rem;
+      line-height: 1.5;
+      margin-top: 20px;
+    }
+    footer {
+      margin-top: 25px;
+      font-size: 0.8rem;
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <!-- Música navideña de fondo (audio local) -->
+    <audio id="musica" autoplay loop playsinline>
+      <source src="binomio_de_oro_navidad.m4a" type="audio/mp4" />
+      <source src="binomio_de_oro_navidad.mp3" type="audio/mpeg" />
+      Tu navegador no soporta audio.
+    </audio>
+    <small style="display:block;margin-bottom:10px;opacity:0.8;">🔊 Si no escuchas la música, toca una vez la pantalla</small>
+    <h1>🎄 Felices Fiestas 🎆</h1>
+    <h2>Partes Eléctricas BYB</h2>
+
+    <div class="countdown">
+      <strong>Cuenta regresiva para Navidad</strong>
+      <div class="time" id="navidad"></div>
+    </div>
+
+    <div class="countdown">
+      <strong>Cuenta regresiva para Año Nuevo</strong>
+      <div class="time" id="anioNuevo"></div>
+    </div>
+
+    <p>
+      A todos quienes han sido parte de este camino —clientes y proveedores—
+      gracias por la confianza, el compromiso y el trabajo conjunto durante este año.
+      Que estas fiestas estén llenas de paz, prosperidad y nuevas oportunidades
+      para seguir creciendo juntos.
+    </p>
+
+    <footer>
+      Con gratitud,<br />
+      <strong>Equipo Partes Eléctricas BYB</strong>
+    </footer>
+  </div>
+
+  <script>
+    function crearContador(fechaObjetivo, elementoId) {
+      function actualizar() {
+        const ahora = new Date().getTime();
+        const distancia = fechaObjetivo - ahora;
+
+        if (distancia < 0) {
+          document.getElementById(elementoId).innerHTML = "<span>¡Ya llegó!</span>";
+          return;
+        }
+
+        const dias = Math.floor(distancia / (1000 * 60 * 60 * 24));
+        const horas = Math.floor((distancia / (1000 * 60 * 60)) % 24);
+        const minutos = Math.floor((distancia / (1000 * 60)) % 60);
+        const segundos = Math.floor((distancia / 1000) % 60);
+
+        document.getElementById(elementoId).innerHTML = `
+          <div class="box"><span>${dias}</span><small>Días</small></div>
+          <div class="box"><span>${horas}</span><small>Horas</small></div>
+          <div class="box"><span>${minutos}</span><small>Min</small></div>
+          <div class="box"><span>${segundos}</span><small>Seg</small></div>
+        `;
+      }
+      actualizar();
+      setInterval(actualizar, 1000);
+    }
+
+    const ahora = new Date();
+    const navidad = new Date(ahora.getFullYear(), 11, 25, 0, 0, 0);
+    const anioNuevo = new Date(ahora.getFullYear() + 1, 0, 1, 0, 0, 0);
+
+    crearContador(navidad.getTime(), "navidad");
+    crearContador(anioNuevo.getTime(), "anioNuevo");
+  
+    
+  
+    // Forzar reproducción tras primera interacción (requisito de móviles)
+    const musica = document.getElementById('musica');
+    document.addEventListener('click', () => {
+      if (musica.paused) {
+        musica.play().catch(() => {});
+      }
+    }, { once: true });
+  </script>
+</body>
+</html>
+
